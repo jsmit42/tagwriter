@@ -6,7 +6,7 @@ with open('tag_files.json') as f:
 def show_tags():
    i = 0
    for file in files['file_names']:
-      print (i, " ", file['name'])
+      print(i, " ", file['name'])
       i = i + 1
 
 def get_tag_file(tag):
@@ -31,7 +31,8 @@ def add_tag(newTag):
     files['file_names'].append(newPair)
 
     newJSON = {
-            "name" : newTag
+            "name" : newTag,
+            "links" : []
             }
 
     with open(newFileName, 'x') as file:
@@ -63,4 +64,35 @@ def assign_tag(tag, title, fileName):
     with open(get_tag_file(tag), 'w') as file:
         file.write(json.dumps(tagged, indent=2))
 
-save()
+def show_options():
+    print("o - Show options")
+    print("s - Show Tags")
+    print("n - Make New Tag")
+    print("a - Assign tag to post")
+    print("r - Remove post from tag")
+    print("q - Quit")
+
+
+loop = True
+show_options()
+
+while loop:
+    next_action = input("> ")
+    if next_action == 'o':
+        show_options()
+    elif next_action == 's':
+        show_tags()
+    elif next_action == 'n':
+        newTag = input("New tag name: ")
+        add_tag(newTag)
+        save()
+    elif next_action == 'a':
+        tag = input("Tag: ")
+        title = input("Title: ")
+        path = input("File name: ")
+        assign_tag(tag, title, path)
+    elif next_action == 'r':
+        print("Feature coming soon")
+    elif next_action == 'q':
+        save()
+        loop = False
